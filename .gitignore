@@ -1,0 +1,20 @@
+# java 
+*.class
+
+# maven
+codekit/target
+target/
+dependency-reduced-pom.xml
+
+# vim files
+*.swp
+*.swo
+session.vim
+
+# ctags
+tags
+
+# eclipse/eclimd
+.classpath
+.project
+.settings

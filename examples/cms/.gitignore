@@ -1,0 +1,3 @@
+# maven build files
+target/
+dependency-reduced-pom.xml
