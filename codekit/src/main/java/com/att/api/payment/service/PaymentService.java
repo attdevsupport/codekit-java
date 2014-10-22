@@ -1,6 +1,7 @@
 package com.att.api.payment.service;
 
-import java.text.ParseException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.att.api.oauth.OAuthToken;
 import com.att.api.payment.model.Notary;
@@ -11,8 +12,6 @@ import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
 import com.att.api.service.APIService;
-
-import org.json.JSONObject;
 
 public class PaymentService extends APIService {
     private static final String TRANS_SUBURL = 
@@ -43,7 +42,7 @@ public class PaymentService extends APIService {
 
         try {
             return new JSONObject(response.getResponseBody());
-        } catch (ParseException e) {
+        } catch (JSONException e) {
             throw new RESTException(e);
         }
     }
@@ -65,7 +64,7 @@ public class PaymentService extends APIService {
 
         try {
             return new JSONObject(response.getResponseBody());
-        } catch (ParseException e) {
+        } catch (JSONException e) {
             throw new RESTException(e);
         }
     } 
@@ -114,7 +113,7 @@ public class PaymentService extends APIService {
 
         try {
             return new JSONObject(response.getResponseBody());
-        } catch (ParseException e) {
+        } catch (JSONException e) {
             throw new RESTException(e);
         }
     }

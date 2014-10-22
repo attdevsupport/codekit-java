@@ -1,8 +1,8 @@
 package com.att.api.speech.service;
 
 import java.io.File;
-import java.text.ParseException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.att.api.oauth.OAuthToken;
@@ -112,7 +112,7 @@ public class SpeechService extends APIService {
         try {
             return SpeechResponse.valueOf(
                     new JSONObject(apiResponse.getResponseBody()));
-        } catch (ParseException e) {
+        } catch (JSONException e) {
             throw new RESTException(e);
         }
     }
@@ -120,7 +120,7 @@ public class SpeechService extends APIService {
     /**
      * Sends the request to the server.
      *
-     * @param file audio file to convert to text
+     * @param audio audio file to convert to text
      * @param xArgs Special information about the request 
      * @param speechContext additional context information about the audio
      * @param subContext speechContext additional information

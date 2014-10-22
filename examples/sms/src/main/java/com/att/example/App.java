@@ -1,8 +1,9 @@
 package com.att.example;
-// This quickstart guide requires the Java codekit, which can be found at:
+// This Quickstart guide for the SMS API requires the Java code kit, 
+// which can be found at:
 // https://github.com/attdevsupport/codekit-java
 
-// Import the relevant code kit parts
+// Import the relevant code kit parts.
 import com.att.api.oauth.OAuthService;
 import com.att.api.sms.model.SMSGetResponse;
 import com.att.api.sms.model.SMSSendResponse;
@@ -14,71 +15,85 @@ import com.att.api.rest.RESTException;
 public class App {
 
     private static void setProxySettings() {
-        // set any proxy settings
-        //RESTConfig.setDefaultProxy("proxy.host", 8080);
+        // If a proxy is required, uncomment the following line to set the proxy.
+        // RESTConfig.setDefaultProxy("proxy.host", 8080);
     }
 
     public static void main(String[] args) {
         setProxySettings();
 
         // Use the app account settings from developer.att.com for the
-        // following values. Make sure SMS is enabled for the App Key and
-        // App Secret.
+        // following values. Make sure that the API scope is set to SMS for the 
+        // SMS API before retrieving the App Key and App Secret.
+
         final String fqdn = "https://api.att.com";
-        // Enter the value from the 'App Key' field
+        // Enter the value from the 'App Key' field obtained at developer.att.com 
+        // in your app account.
         final String clientId = "ENTER VALUE!";
-        // Enter the value from the 'App Secret' field
+        // Enter the value from the 'App Secret' field obtained at developer.att.com 
+        // in your app account.
         final String clientSecret = "ENTER VALUE!";
-        // Create service for requesting an OAuth token
+        // Create the service for requesting an OAuth access token.
         OAuthService osrvc = new OAuthService(fqdn, clientId, clientSecret);
         OAuthToken token;
         try {
-            // Get OAuth token using the SMS scope
+            // Get the OAuth token using the SMS scope.
             token = osrvc.getToken("SMS");
         } catch (RESTException re) {
             re.printStackTrace();
             return;
         } 
 
-        // Create service for interacting with the SMS API
+        // Create the service for interacting with the SMS API.
         SMSService smsSrvc = new SMSService(fqdn, token);
 
-        // The following lines of code showcase the possible method calls for
-        // the SMSService class; to test only a particular method call, comment
-        // out any other method calls.
+        // The following lines of code show the possible method calls for
+        // the SMSService class; to test only one method, comment out the 
+        // other try/catch blocks.
 
+ 
+        /* This try/catch block tests the sendSMS method. */
         try {
-            /* This portion showcases the Send SMS API call. */
-            // Enter Phone Number; e.g. final String pn = "5555555555";
+            
+            // Enter the phone number where the message is sent. For 
+            // example: final String pn = "5555555555";
             final String pn = "ENTER VALUE!";
             final String msg = "Test message.";
             final boolean notifyDeliveryStatus = false;
-            // Send request for sending SMS
+            // Send the request to send the message.
             SMSSendResponse r = smsSrvc.sendSMS(pn, msg, notifyDeliveryStatus);
             System.out.println("message id: " + r.getMessageId());
         } catch (RESTException re) {
+            // Handle exceptions here.
             re.printStackTrace();
         }
 
+
+        /* This try/catch block tests the getSMSDeliveryStatus method. */
         try {
-            /* This portion showcases the Get SMS Delivery Status API call. */
-            // Enter SMS id used to get status
+            
+            // Enter the id of the SMS message.
             final String smsId = "ENTER VALUE!";
-            // Send request for getting SMS delivery status
+            // Send the request get the SMS delivery status.
             SMSStatus r = smsSrvc.getSMSDeliveryStatus(smsId);
             System.out.println("resource url: " + r.getResourceUrl());
         } catch (RESTException re) {
+            // Handle exceptions here.
             re.printStackTrace();
         }
 
+
+        /* This try/catch block tests the getMessages method. */
         try {
-            /* This portion showcases the Get Messages API call. */
-            // Enter shortcode used to get messages
+            
+            // Enter the short code used to get the messages.
             final String shortcode = "ENTER VALUE!";
-            // Send request for getting messages sent to the specified short code
+            // Send the request for getting messages sent to 
+            // the specified short code.
             SMSGetResponse r = smsSrvc.getSMS(shortcode);
             System.out.println("numberOfMsgs: " + r.getNumberOfMessages());
         } catch (RESTException re) {
+            // Handle exceptions here.
             re.printStackTrace();
         }
     }

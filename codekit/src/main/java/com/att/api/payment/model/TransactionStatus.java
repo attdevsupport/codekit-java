@@ -48,7 +48,7 @@ public class TransactionStatus {
 
     /**
      * Payment transaction id
-     * @return
+     * @return the transaction id
      */
     public String getTransactionId()
     {
@@ -64,7 +64,7 @@ public class TransactionStatus {
 
     /**
      * Merchant's transaction id
-     * @return
+     * @return the merchant transaction id
      */
     public String getMerchantTransactionId()
     {

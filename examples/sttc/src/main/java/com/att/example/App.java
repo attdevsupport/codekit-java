@@ -1,5 +1,6 @@
 package com.att.example;
-// This quickstart guide requires the Java codekit, which can be found at:
+// This Quickstart Guide for the Speech API requires the Java code kit, 
+// which can be found at: 
 // https://github.com/attdevsupport/codekit-java
 
 // Import the relevant code kit parts
@@ -18,8 +19,8 @@ import com.att.api.oauth.OAuthToken;
 public class App {
 
     private static void setProxySettings() {
-        // set any proxy settings
-        //RESTConfig.setDefaultProxy("proxy.host", 8080);
+        // If a proxy is required, uncomment the following line to set the proxy.
+        // RESTConfig.setDefaultProxy("proxy.host", 8080);
     }
 
     private static String formatList(String preface, List<?> lstring) {
@@ -41,31 +42,34 @@ public class App {
         try {
             setProxySettings();
 
-            // Use the app settings from developer.att.com for the following
-            // values. Make sure Speech is enabled for the app key/secret.
+            // Use the app account settings from developer.att.com for the following
+            // values. Make sure that the API scope is set to Speech for the Speech API 
+            // before retrieving the App Key and App Secret.
 
             final String fqdn = "https://api.att.com";
 
-            // Enter the value from 'App Key' field
+            // Enter the value from the 'App Key' field obtained at developer.att.com 
+            // in your app account.
             final String clientId = "ENTER VALUE!";
 
-            // Enter the value from 'Secret' field
+            // Enter the value from the 'App Secret' field obtained at developer.att.com 
+            // in your app account.
             final String clientSecret = "ENTER VALUE!";
 
-            // Create service for requesting an OAuth token
+            // Create a service for requesting an OAuth access token.
             OAuthService osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
-            // Get OAuth token using the Speech scope
+            // Get the OAuth access token using the API scope set to Speech for the Speech API.
             OAuthToken token = osrvc.getToken("SPEECH");
 
-            // Create service for interacting with the Speech api
+            // Create the service for interacting with the Speech API.
             SpeechCustomService speechSrvc = new SpeechCustomService(fqdn,
                     token);
 
-            // Set this to a single channel audio file
+            // Set to a single channel audio file.
             final File AUDIO_FILE = new File("/tmp/audio.wav");
 
-            // Add a grammar and dictionary file to use with the api
+            // Add a grammar and dictionary file to use with the API.
             final File GRAMMAR = new File("/tmp/grammar.grxml");
             final File DICTIONARY = new File("/tmp/dictionary.pls");
 
@@ -74,7 +78,7 @@ public class App {
 
             System.out.println("Converted Speech with status response:"
                     + response.getStatus());
-            System.out .println("Response ID:" 
+            System.out .println("Response ID:"
                     + response.getResponseId() + "\n");
 
             System.out.println("NBest values:");
@@ -85,10 +89,10 @@ public class App {
                 System.out.println("\tGrade: " + nbest.getGrade());
                 System.out.println("\tLanguage Id: " + nbest.getLanguageId());
                 System.out.println("\tResult Text: " + nbest.getResultText());
-                System.out.println(formatList("\tWords: ", 
+                System.out.println(formatList("\tWords: ",
                             nbest.getWords())
                         );
-                System.out.println(formatList("\tWord Scores: ", 
+                System.out.println(formatList("\tWord Scores: ",
                             nbest.getWordScores())
                         );
 
@@ -98,17 +102,17 @@ public class App {
                     List<OutComposite> composites = nlu.getOutComposite();
                     for (OutComposite comp : composites) {
                         System.out.println("\t\tOut: " + comp.getOut());
-                        System.out.println("\t\tGrammar: " 
+                        System.out.println("\t\tGrammar: "
                                 + comp.getGrammar());
                     }
                 }
             }
 
         } catch (Exception re) {
-            // handle exceptions here
+            // Handle exceptions here.
             re.printStackTrace();
         } finally {
-            // perform any clean up here
+            // Perform any clean up here.
         }
     }
 }

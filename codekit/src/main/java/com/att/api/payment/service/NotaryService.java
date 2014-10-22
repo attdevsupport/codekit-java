@@ -1,7 +1,6 @@
 package com.att.api.payment.service;
 
-import java.text.ParseException;
-
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.att.api.payment.model.Notary;
@@ -62,7 +61,7 @@ public class NotaryService extends APIService {
             String signature = jresponse.getString("Signature");
 
             return new Notary(rawStr, signedDoc, signature);
-        } catch (ParseException e){
+        } catch (JSONException e){
             throw new RESTException(e);
         }
     }

@@ -1,7 +1,9 @@
 package com.att.example;
-// This quickstart guide requires the Java codekit, which can be found at:
+// This Quickstart Guide for the Payment API requires the Java code kit, 
+// which can be found at: 
 // https://github.com/attdevsupport/codekit-java
 
+// Import the relevant code kit parts.
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -18,102 +20,105 @@ import com.att.api.payment.service.NotaryService;
 import com.att.api.payment.service.PaymentService;
 import com.att.api.rest.RESTException;
 
-// Import the relevant code kit parts
+
 
 public class App {
 
     private static void setProxySettings() {
-        // set any proxy settings
-        //RESTConfig.setDefaultProxy("proxy.host", 8080);
+        // If a proxy is required, uncomment the following line to set the proxy.
+        // RESTConfig.setDefaultProxy("proxy.host", 8080);
     }
 
     public static void main(String[] args) {
         setProxySettings();
 
         // Use the app settings from developer.att.com for the following
-        // values. Make sure DC is enabled for the app key/secret.
+        // values. Make sure that the API scope is set to PAYMENT for the Payment 
+        // API before retrieving the App Key and App Secret.
         
-        //final String fqdn = "https://api.att.com";
+        // Set the fully-qualified domain name.
         final String fqdn = "https://api.att.com";
 
-        // Enter the value from 'App Key' field
+        // Enter the value from the 'App Key' field obtained at developer.att.com 
+        // in your app account.
         final String clientId = "ENTER_VALUE!";
 
-        // Enter the value from 'Secret' field
+        // Enter the value from the 'App Secret' field obtained at developer.att.com 
+        // in your app account.
         final String clientSecret = "ENTER_VALUE!";
 
-        // Enter notification id to test notifications
+        // Enter the notification id to test notifications.
         final String notificationId = "ENTER_VALUE!";
 
-        // Set the url to redirect to after authorizing a payment
+        // Set the url to redirect to after authorizing a payment.
         final String REDIRECT = "http://localhost:123123/auth";
 
         OAuthService osrvc = null;
         OAuthToken token = null;
-        try {
-            /*
-             * OAuth
-             */
 
-            // Create service for requesting an OAuth token
+        /*Create the services.*/
+
+        try {
+            
+            // Create the service for requesting an OAuth access token.
             osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
-            // Get OAuth token using the Payment scope
+            // Get the OAuth access token using the Payment scope.
             token = osrvc.getToken("Payment");
 
         } catch(RESTException re){
-            // handle exceptions here
+            // Handle exceptions here.
             re.printStackTrace();
         }
-        // Create service for interacting with the Payment api
+
+        // Create the service for interacting with the Payment API.
         final PaymentService paymentSrvc = new PaymentService(fqdn, token);
 
-        // Create a Notary service
+        // Create a Notary service.
         final NotaryService notaryService = new NotaryService(fqdn, clientId,
                 clientSecret);
 
-        try {
-            /*
-             * Create Transaction
-             *
-             */
 
-            // Define how much the product costs 
+        /* Create the transaction.*/  
+        try {
+
+            // Specify how much the product costs.
             final double AMOUNT = 1;
 
-            // Give the item a description
+            // Specify a description of the product.
             final String DESC = "example game xtreme";
 
-            // Define a uniq merchant transaction id
+            // Specify a unique merchant transaction id.
             final String MERCH_TRANS_ID = "example" +
                 System.currentTimeMillis();
 
-            // Set the merchant product id
+            // Specify the merchant product id.
             final String MERCH_PROD_ID = "exampleGame";
 
-            // Create a basic transaction
+            // Create a basic transaction.
             final Transaction trans = new Transaction.Builder(
                     AMOUNT,
                     AppCategory.APP_OTHER,
-                    DESC, 
-                    MERCH_TRANS_ID, 
+                    DESC,
+                    MERCH_TRANS_ID,
                     MERCH_PROD_ID,
                     REDIRECT).build();
 
-            // Turn our transaction into a signed notary
+            // Obtain a signed notary from the transaction, for use in
+            //  authenticating the payment.
             final Notary notary = notaryService.getTransactionNotary(trans);
 
             System.out.println("Please use the following url to"
                     + " authenticate the payment: ");
 
-            // Obtain the url used for authenticating the payment
-            String url = PaymentService.getNewTransactionURL(fqdn, clientId, 
+            // Obtain the url used for authenticating the payment.
+            String url = PaymentService.getNewTransactionURL(fqdn, clientId,
                     notary);
             System.out.println(url);
 
             System.out.println();
 
-            // Create a scanner to accept the auth code
+            // Create a scanner to accept the authorization code.
             System.out.println("Please input the authcode returned to "
                     + "the redirect");
             Scanner sc = new Scanner(System.in);
@@ -121,20 +126,18 @@ public class App {
 
             System.out.println();
 
-            // Get the status via Auth code
+            // Get the status of the transaction using the authorization code.
             JSONObject response = paymentSrvc.getTransactionStatus(
                     Transaction.Type.AUTHCODE, code);
 
-            // Just print the returned response to console
+            // Print the returned response to the console.
             System.out.println("Transaction Status:");
             printJSONObject(response);
 
             System.out.println();
 
-            /*
-             * Refund the transaction
-             *
-             */
+
+            /* Refund the transaction.*/
 
             final String transId = response.getString("TransactionId");
             final String reason = "This was an example transaction";
@@ -143,62 +146,62 @@ public class App {
             JSONObject refund = paymentSrvc.refundTransaction(transId,
                     reason, reasonCode);
 
-            // Just print the returned response to console
+            // Print the returned response to the console.
             System.out.println("Refund:");
             printJSONObject(refund);
 
             System.out.println();
 
         } catch (RESTException re) {
-            // handle exceptions here
+            // Handle exceptions here.
             re.printStackTrace();
         }
 
+  
+           /* Create a subscription. */      
         try {
-            /*
-             * Create Subscription
-             */
+ 
 
-            // Define how much the product costs 
+            // Define how much the product costs.
             final double AMOUNT = 1;
 
-            // Give the item a description
+            // Give the item a description.
             final String DESC = "example game xtreme";
 
-            // Define a uniq merchant transaction id
+            // Define a uniq merchant transaction id.
             final String MERCH_TRANS_ID = "example" +
                 System.currentTimeMillis();
 
-            // Set the merchant product id
+            // Set the merchant product id.
             final String MERCH_PROD_ID = "exampleGame";
 
             final String MERCH_SUB_ID = "ExampleMerchSubID";
 
-            // Create a basic transaction
+            // Create a basic transaction.
             final Subscription sub = new Subscription.Builder(
                     AMOUNT,
                     AppCategory.APP_OTHER,
-                    DESC, 
-                    MERCH_TRANS_ID, 
+                    DESC,
+                    MERCH_TRANS_ID,
                     MERCH_PROD_ID,
                     REDIRECT,
                     MERCH_SUB_ID).build();
 
-            // Turn our transaction into a signed notary
+            // Turn our transaction into a signed notary.
             final Notary notary = notaryService.getSubscriptionNotary(sub);
 
             System.out.println("Please use the following url to"
                     + " authenticate the subscription: ");
 
-            // Obtain the url used for authenticating the payment
-            String url = PaymentService.getNewSubscriptionURL(fqdn, clientId, 
+            // Obtain the url used for authenticating the payment.
+            String url = PaymentService.getNewSubscriptionURL(fqdn, clientId,
                     notary);
 
             System.out.println(url);
 
             System.out.println();
 
-            // Create a scanner to accept the auth code
+            // Create a scanner to accept the authorization code.
             System.out.println("Please input the authcode returned to "
                     + "the redirect");
             Scanner sc = new Scanner(System.in);
@@ -206,7 +209,7 @@ public class App {
 
             System.out.println();
 
-            // Get the status via Auth code
+            // Get the transaction status using the authorization code.
             JSONObject sub_response = paymentSrvc.getSubscriptionStatus(
                     Subscription.Type.AUTHCODE, code);
 
@@ -214,9 +217,7 @@ public class App {
             printJSONObject(sub_response);
 
 
-            /*
-             * Get Subscription details
-             */
+            /* Get subscription details. */
 
             String merchId = sub_response.getString("MerchantSubscriptionId");
             String consumerId = sub_response.getString("ConsumerId");
@@ -228,9 +229,7 @@ public class App {
             System.out.println("Subscription Details:");
             printJSONObject(sub_details);
 
-            /*
-             * Refund subscription
-             */
+            /* Refund the subscription. */
 
             String subId = sub_response.getString("SubscriptionId");
             String reason = "This was an example subscription";
@@ -244,14 +243,14 @@ public class App {
             printJSONObject(refund);
 
         } catch (RESTException re) {
-            // handle exceptions here
+            // Handle exceptions here.
             re.printStackTrace();
         }
 
+        
+        /* Notifications. */
         try {
-            /*
-             * Notifications
-             */
+            
 
             JSONObject info = paymentSrvc.getNotification(notificationId);
 
@@ -260,14 +259,14 @@ public class App {
             printJSONObject(info);
 
         } catch (RESTException re) {
-            // handle exceptions here
+            // Handle exceptions here
             re.printStackTrace();
         }
     }
 
-    private static void printJSONObject(JSONObject json, String pre, 
+    private static void printJSONObject(JSONObject json, String pre,
             int cyclicCheck) {
-        // Do a check to make sure we don't endlessly recurse
+        // Do a check to make sure you do not endlessly recurse.
         if (cyclicCheck <= 0)
             return;
 
@@ -277,8 +276,8 @@ public class App {
         while(keys.hasNext()){
             String key = keys.next();
 
-            // Please don't use exceptions for call flow.
-            // This is only an example to quickly display the values.
+            // Do not use exceptions for the call flow.
+            // This example only displays the values.
             try {
                 JSONObject obj = json.getJSONObject(key);
                 System.out.println(pre + key + ":");
@@ -294,3 +293,5 @@ public class App {
     }
 
 }
+
+ 

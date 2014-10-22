@@ -1,8 +1,8 @@
 package com.att.api.speech.service;
 
 import java.io.File;
-import java.text.ParseException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.att.api.oauth.OAuthToken;
@@ -105,7 +105,7 @@ public class SpeechCustomService extends APIService {
             return SpeechResponse.valueOf(
                     new JSONObject(apiResponse.getResponseBody())
                     );
-        } catch (ParseException e) {
+        } catch (JSONException e) {
             // Wrap in a RESTException
             throw new RESTException(e);
         }
