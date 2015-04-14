@@ -1,7 +1,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 */
 
 /*
- * Copyright 2014 AT&T
+ * Copyright 2015 AT&T
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,13 +91,13 @@ public class OAuthService {
     public static final String REVOKE_URL = "/oauth/v4/revoke";
 
     /** Fully qualified domain name. */
-    private final String fqdn;
+    protected final String fqdn;
 
     /** Client id to use for requesting an OAuth token. */
-    private final String clientId;
+    protected final String clientId;
 
     /** Client secret to use for requestion an OAuth token. */
-    private final String clientSecret;
+    protected final String clientSecret;
 
     /**
      * Parses the API response from the API server when an access token was

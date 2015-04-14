@@ -44,6 +44,10 @@ public abstract class APIController extends HttpServlet {
     }
 
     protected OAuthToken getFileToken() throws RESTException {
+        return this.getFileToken("scope");
+    }
+    
+    protected OAuthToken getFileToken(final String scope) throws RESTException {
         try {
             final AppConfig cfg = AppConfig.getInstance();
             final String path = "WEB-INF/token.properties";
@@ -56,7 +60,7 @@ public abstract class APIController extends HttpServlet {
                 final OAuthService service = new OAuthService(
                         appConfig.getOauthFQDN(), clientId, clientSecret);
 
-                token = service.getToken(cfg.getProperty("scope"));
+                token = service.getToken(cfg.getProperty(scope));
                 token.saveToken(tokenFile);
             }
 
