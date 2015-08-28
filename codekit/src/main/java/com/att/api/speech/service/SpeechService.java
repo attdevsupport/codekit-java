@@ -40,7 +40,7 @@ public class SpeechService extends APIService {
      * @param audio audio file to convert to text
      *
      * @return SpeechResponse object
-     * @throws RESTException
+     * @throws RESTException request error
      * @see SpeechResponse
      */
     public SpeechResponse speechToText(File audio) throws Exception {
@@ -54,7 +54,7 @@ public class SpeechService extends APIService {
      * @param xArgs Special information about the request 
      *
      * @return SpeechResponse object
-     * @throws RESTException
+     * @throws RESTException request error
      * @see SpeechResponse
      */
     public SpeechResponse speechToText(File audio, 
@@ -70,7 +70,7 @@ public class SpeechService extends APIService {
      * @param speechContext additional context information about the audio
      *
      * @return SpeechResponse object
-     * @throws RESTException
+     * @throws RESTException request error
      * @see SpeechResponse
      */
     public SpeechResponse speechToText(File audio, String xArgs, 
@@ -87,7 +87,7 @@ public class SpeechService extends APIService {
      * @param subContext speechContext additional information
      *
      * @return SpeechResponse object
-     * @throws RESTException
+     * @throws RESTException request error
      * @see SpeechResponse
      */
     public SpeechResponse speechToText(File audio, String xArgs, 
@@ -126,7 +126,7 @@ public class SpeechService extends APIService {
      * @param subContext speechContext additional information
      *
      * @return a response in the form of a SpeechResponse object
-     * @throws RESTException
+     * @throws RESTException request error
      * @see SpeechResponse
      * @deprecated use speechToText instead
      */

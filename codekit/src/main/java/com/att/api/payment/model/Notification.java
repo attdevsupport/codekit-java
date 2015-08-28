@@ -280,7 +280,7 @@ final public class Notification {
      *
      * @param xml an xml byte array representation of a notification
      * @return Notification
-     * @throws RESTException
+     * @throws RESTException request error
      */
     public static Notification fromXml(byte[] xml) throws RESTException {
         InputStream is = new ByteArrayInputStream(xml);
@@ -291,7 +291,7 @@ final public class Notification {
      *
      * @param xml an xml string representation of a notification
      * @return Notification
-     * @throws RESTException
+     * @throws RESTException request error
      */
     public static Notification fromXml(String xml) throws RESTException {
         try {

@@ -16,8 +16,8 @@ import com.att.api.speech.model.SpeechResponse;
 public class TtsService extends APIService {
 
     /**
-     * @param fqdn
-     * @param token
+     * @param fqdn the fully qualified domain name
+     * @param token the oauth token to make requests with
      */
     public TtsService(String fqdn, OAuthToken token) {
         super(fqdn, token);
@@ -27,10 +27,9 @@ public class TtsService extends APIService {
      * If the server returned a successful response, this method parses the
      * response and returns a {@link SpeechResponse} object.
      *
-     * @param response
-     *            the response returned by the server
+     * @param response the response returned by the server
      * @return the server response as a binary byte[] array
-     * @throws RESTException
+     * @throws RESTException request error 
      */
     private byte[] parseSuccess(APIResponse wavResponse) throws RESTException {
         //decodes binary properly with iso-8859-1 charset
@@ -45,11 +44,9 @@ public class TtsService extends APIService {
      * If the server responds with a failure, this method returns a
      * {@link SpeechResponse} object with the failure message.
      *
-     * @param response
-     *            response to parse
+     * @param response response to parse
      * @return error in a SpeechResponse object
-     * @throws RESTException
-     *             if unable to parse the passed-in response
+     * @throws RESTException if unable to parse the passed-in response
      */
     private void parseFailure(APIResponse response) throws RESTException {
         String result;
@@ -64,12 +61,12 @@ public class TtsService extends APIService {
     /**
      * Sends the request to the server.
      *
-     * @param file
-     *            file to send.
-     * @param speechContext
-     *            speech context
-     * @return a byte array
-     * @throws RESTException
+     * @param contentType content type of request
+     * @param speechText body of speech request
+     * @param xArg additional arguments
+     *
+     * @return a byte array containing a x-wav audio file
+     * @throws RESTException request error
      * @see SpeechResponse
      */
     public byte[] sendRequest(String contentType, String speechText, String xArg)
