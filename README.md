@@ -53,11 +53,11 @@ modified to include values, such as an application key, by editing the source
 file. The source file contains comments that describe which parts need to be
 modified.
 
-For example, to run the ads example:  
-Switch the working directory to examples/ads (e.g. `cd examples/ads`). 
+For example, to run the sms example:  
+Switch the working directory to examples/sms (e.g. `cd examples/sms`). 
 Modify the src/main/java/com/att/example/App.java file.  
 Run maven to generate the jar (e.g. `mvn clean package`).  
-Run the compiled jar (e.g. `java -jar targets/ads-1.0-SNAPSHOT.jar`).  
+Run the compiled jar (e.g. `java -jar targets/sms-1.0-SNAPSHOT.jar`).  
 
 ## Test Code
 

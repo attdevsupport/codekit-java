@@ -1,8 +1,6 @@
 package com.att.example;
 
 // Import the relevant code kit parts.
-import com.att.api.ads.service.ADSResponse;
-import com.att.api.ads.service.ADSService;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
